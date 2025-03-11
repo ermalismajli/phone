@@ -37,4 +37,4 @@ jobs:
         with:
           branch: main
           folder: dist  # The folder where Expo exports the app for production
-          token: ${{ secrets.GITHUB_TOKEN }} 
+          token: ${{ secrets.PAT_TOKEN }} 
