@@ -29,11 +29,11 @@ jobs:
 
       # Build the app for Web
       - name: Build the app for Web
-        run: npm run build  # expo export --web
+        run: npm run start --web  # Start expo with the web flag for development (or use other build methods for production)
 
       # Deploy to GitHub Pages
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: main
-          folder: web-build  # Folder where expo export will place the built web app
+          folder: web-build  # Folder where the built web app will be placed
