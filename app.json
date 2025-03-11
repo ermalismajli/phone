@@ -36,5 +36,10 @@
     "experiments": {
       "typedRoutes": true
     }
-  }
+  },
+  "web": {
+  "publicPath": "/phone/",
+  "bundler": "metro",
+  "output": "static"
+}
 }
