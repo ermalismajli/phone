@@ -27,13 +27,13 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      # Build the app for web
+      # Build the app for Web
       - name: Build the app for Web
-        run: npm run build  # Ensure you have a script in package.json for "build" (expo build:web)
+        run: npm run build  # expo export --web
 
-      # Deploy to GitHub Pages or other platform
+      # Deploy to GitHub Pages
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: main
-          folder: web-build  # The folder where the web build will be output
+          folder: web-build  # Folder where expo export will place the built web app
