@@ -35,6 +35,6 @@ jobs:
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          branch: main
+          branch: phone-web  # The branch where the app will be deployed
           folder: dist  # The folder where Expo exports the app for production
           token: ${{ secrets.PAT_TOKEN }} 
