@@ -1,4 +1,5 @@
 {
+  "homepage": "https://ermalismajli.github.io/phone",
   "expo": {
     "name": "my-cross-platform-app",
     "slug": "my-cross-platform-app",
@@ -7,7 +8,6 @@
     "icon": "./assets/images/icon.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
-    "homepage": "https://ermalismajli.github.io/phone",
     "newArchEnabled": true,
     "splash": {
       "image": "./assets/images/splash-icon.png",
@@ -25,6 +25,7 @@
       }
     },
     "web": {
+      "publicPath": "/phone/",
       "bundler": "metro",
       "output": "static",
       "favicon": "./assets/images/favicon.png"
