@@ -1,0 +1,39 @@
+name: Deploy React Native app to Web
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the code
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Set up Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'  # Use the Node.js version compatible with your app
+
+      # Install dependencies
+      - name: Install dependencies
+        run: npm install
+
+      # Build the app for web
+      - name: Build the app for Web
+        run: npm run build  # Ensure you have a script in package.json for "build" (expo build:web)
+
+      # Deploy to GitHub Pages or other platform
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: web-build  # The folder where the web build will be output
