@@ -445,6 +445,7 @@ export default function RamadanToDoScreen() {
         setRecurringTasks([...recurringTasks, recurringTask])
       }
     }
+    
 
     // Reset form
     setNewTask({
