@@ -430,7 +430,6 @@ export default function RamadanToDoScreen() {
     // If recurring, check if a task with the same name already exists
     if (isRecurring) {
       const taskExists = recurringTasks.some((task) => task.title.toLowerCase() === newTask.title.toLowerCase())
-
       if (taskExists) {
         Alert.alert(
           "Duplicate Task",
