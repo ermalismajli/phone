@@ -36,4 +36,4 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: main
-          folder: web-build  # The folder where Expo exports the app for production
+          folder: dist  # The folder where Expo exports the app for production
