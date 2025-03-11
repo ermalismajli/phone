@@ -21,19 +21,19 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '16'  # Use the Node.js version compatible with your app
+          node-version: '16'
 
       # Install dependencies
       - name: Install dependencies
         run: npm install
 
-      # Build the app for Web
-      - name: Build the app for Web
-        run: npm run start --web  # Start expo with the web flag for development (or use other build methods for production)
+      # Export the app for Web (this prepares the app for deployment)
+      - name: Export the app for Web
+        run: npx expo export --web
 
       # Deploy to GitHub Pages
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: main
-          folder: web-build  # Folder where the built web app will be placed
+          folder: web-build  # The folder where Expo exports the web app
