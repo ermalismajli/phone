@@ -4,12 +4,13 @@
   "license": "0BSD",
   "version": "1.0.0",
   "scripts": {
-  "start": "expo start --web", 
-  "android": "expo start --android",
-  "ios": "expo start --ios", 
-  "web": "expo start --web", 
-  "test": "jest --watchAll" 
-},
+    "start": "expo start --web", 
+    "build": "expo export", 
+    "android": "expo start --android", 
+    "ios": "expo start --ios", 
+    "web": "expo start --web",
+    "test": "jest --watchAll" 
+  },
   "jest": {
     "preset": "jest-expo"
   },
