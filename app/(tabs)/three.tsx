@@ -16,7 +16,6 @@ import type { RecentRead, QuranView } from "@/types/quran"
 import { QuranService } from "@/services/QuranService"
 
 export default function QuranScreen() {
-  // View state (list view or reader view)
   const [currentView, setCurrentView] = useState<QuranView>("list")
 
   // Current surah and verse being read
