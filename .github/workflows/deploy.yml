@@ -1,3 +1,13 @@
+name: Deploy React Native app to Web
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
 jobs:
   build:
     runs-on: ubuntu-latest
