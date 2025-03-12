@@ -4,12 +4,7 @@
   "homepage": "https://ermalismajli.github.io/phone",
   "license": "0BSD",
   "version": "1.0.0",
-  "web": {
-  "publicPath": "/phone/",
-  "bundler": "metro",
-  "output": "static"
-},
- "scripts": {
+  "scripts": {
     "start": "expo start --web",
     "build": "expo export --web",
     "android": "expo start --android",

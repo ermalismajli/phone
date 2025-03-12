@@ -1,5 +1,4 @@
 {
-  "homepage": "https://ermalismajli.github.io/phone",
   "expo": {
     "name": "my-cross-platform-app",
     "slug": "my-cross-platform-app",
@@ -25,7 +24,6 @@
       }
     },
     "web": {
-      "publicPath": "/phone/",
       "bundler": "metro",
       "output": "static",
       "favicon": "./assets/images/favicon.png"
@@ -36,10 +34,5 @@
     "experiments": {
       "typedRoutes": true
     }
-  },
-  "web": {
-  "publicPath": "/phone/",
-  "bundler": "metro",
-  "output": "static"
-}
+  }
 }

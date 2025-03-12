@@ -13,7 +13,7 @@ const PageIndicator: React.FC<PageIndicatorProps> = ({ pageNumber, isDarkMode })
       <View style={[styles.line, isDarkMode && styles.darkLine]} />
 
       <View style={[styles.pageNumberContainer, isDarkMode && styles.darkPageNumberContainer]}>
-        <Ionicons name="bookmark-outline" size={16} color={isDarkMode ? "#4CAF50" : "#2C6B2F"} />
+        <Ionicons name="book-outline" size={16} color={isDarkMode ? "#4CAF50" : "#2C6B2F"} />
         <Text style={[styles.pageNumber, isDarkMode && styles.darkPageNumber]}>Page {pageNumber}</Text>
       </View>
 
@@ -31,28 +31,33 @@ const styles = StyleSheet.create({
   line: {
     flex: 1,
     height: 1,
-    backgroundColor: "#ddd",
+    backgroundColor: "#2C6B2F",
+    opacity: 0.3,
   },
   darkLine: {
-    backgroundColor: "#444",
+    backgroundColor: "#4CAF50",
+    opacity: 0.5,
   },
   pageNumberContainer: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#f0f8f0",
-    paddingHorizontal: 12,
-    paddingVertical: 6,
+    backgroundColor: "#e8f5e9",
+    paddingHorizontal: 14,
+    paddingVertical: 8,
     borderRadius: 15,
     marginHorizontal: 10,
+    borderWidth: 1,
+    borderColor: "#2C6B2F",
   },
   darkPageNumberContainer: {
     backgroundColor: "#1e3e1f",
+    borderColor: "#4CAF50",
   },
   pageNumber: {
     color: "#2C6B2F",
-    fontWeight: "500",
+    fontWeight: "600",
     fontSize: 14,
-    marginLeft: 5,
+    marginLeft: 6,
   },
   darkPageNumber: {
     color: "#4CAF50",
