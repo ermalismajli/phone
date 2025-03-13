@@ -34,7 +34,7 @@ export default function QuranScreen() {
   // Settings
   const [fontSize, setFontSize] = useState(18)
   const [isDarkMode, setIsDarkMode] = useState(false)
-  const [showArabic, setShowArabic] = useState(true)
+  const [showArabic, setShowArabic] = useState(false)
 
   // Load data from storage
   useEffect(() => {
@@ -173,9 +173,9 @@ export default function QuranScreen() {
 
   // Toggle Arabic text
   const toggleArabic = () => {
-    const newValue = !showArabic
-    setShowArabic(newValue)
-    AsyncStorage.setItem("quranShowArabic", JSON.stringify(newValue))
+    // const newValue = !showArabic
+    // setShowArabic(newValue)
+    // AsyncStorage.setItem("quranShowArabic", JSON.stringify(newValue))
   }
 
   // Change font size

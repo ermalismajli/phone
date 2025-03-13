@@ -599,7 +599,7 @@ const QuranReader: React.FC<QuranReaderProps> = ({
 
         <View style={[styles.divider, isDarkMode && styles.darkDivider]} />
 
-        <View style={styles.controlsRow}>
+        {/* <View style={styles.controlsRow}>
           <TouchableOpacity
             style={[styles.controlButton, isDarkMode && styles.darkControlButton]}
             onPress={onToggleArabic}
@@ -610,7 +610,7 @@ const QuranReader: React.FC<QuranReaderProps> = ({
           <Text style={[styles.fontSizeText, isDarkMode && styles.darkText]}>
             {showArabic ? "Hide Arabic" : "Show Arabic"}
           </Text>
-        </View>
+        </View> */}
 
         <View style={[styles.divider, isDarkMode && styles.darkDivider]} />
 
