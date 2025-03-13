@@ -203,11 +203,23 @@ const QuranReader: React.FC<QuranReaderProps> = ({
 
         // Add new pages to the beginning
         setPages([...newPages, ...currentPages])
+        const { surah: newSurah, verse: newVerse, juz: newJuz } = QuranService.getSurahAndVerseForPage(firstPage - 1)
+
+        setCurrentSurah(newSurah)
+        setCurrentVerse(newVerse)
+        setCurrentPage(firstPage - 1)
+        setCurrentJuz(newJuz)
 
         // Adjust the current page index to maintain position
         setCurrentPageIndex(currentIndex + newPages.length)
       } else {
         const lastPage = currentPages[currentPages.length - 1].pageNumber
+        const { surah: newSurah, verse: newVerse, juz: newJuz } = QuranService.getSurahAndVerseForPage(lastPage)
+
+        setCurrentSurah(newSurah)
+        setCurrentVerse(newVerse)
+        setCurrentPage(lastPage)
+        setCurrentJuz(newJuz)
 
         // Load page after the last loaded page
         const pagesToLoad = [lastPage + 1]
@@ -252,6 +264,12 @@ const QuranReader: React.FC<QuranReaderProps> = ({
 
     const newIndex =
       direction === "next" ? Math.min(currentPageIndex + 1, pages.length - 1) : Math.max(currentPageIndex - 1, 0)
+      const { surah: newSurah, verse: newVerse, juz: newJuz } = QuranService.getSurahAndVerseForPage(newIndex - 1)
+
+      setCurrentSurah(newSurah)
+      setCurrentVerse(newVerse)
+      setCurrentPage(newIndex - 1)
+      setCurrentJuz(newJuz)
 
     if (newIndex !== currentPageIndex) {
       setCurrentPageIndex(newIndex)
@@ -321,15 +339,6 @@ const QuranReader: React.FC<QuranReaderProps> = ({
           pageNumber === currentPage && styles.currentPageWrapper,
         ]}
       >
-        {/* Decorative header */}
-        <View style={styles.pageDecorativeHeader}>
-          <View style={[styles.decorativeLine, isDarkMode && styles.darkDecorativeLine]} />
-          <View style={[styles.decorativeCircle, isDarkMode && styles.darkDecorativeCircle]}>
-            <Text style={styles.pageNumberBadge}>{pageNumber}</Text>
-          </View>
-          <View style={[styles.decorativeLine, isDarkMode && styles.darkDecorativeLine]} />
-        </View>
-
         {/* Render each surah's verses on this page */}
         {Object.keys(versesBySurah).map((surahKey) => {
           const surahNumber = Number.parseInt(surahKey)
@@ -343,16 +352,21 @@ const QuranReader: React.FC<QuranReaderProps> = ({
             <View key={`page-${pageNumber}-surah-${surahNumber}`}>
               {/* Surah header if this is the first page of the surah */}
               {isFirstPageOfSurah && (
-                <View style={[styles.surahHeader, isDarkMode && styles.darkSurahHeader]}>
-                  <View style={styles.surahHeaderContent}>
-                    <Text style={styles.surahNumber}>{surahNumber}</Text>
-                    <View style={styles.surahTitleContainer}>
+                <View style={styles.surahHeaderWrapper}>
+
+                  <View style={[styles.surahHeader, isDarkMode && styles.darkSurahHeader]}>
+                    <View style={styles.surahInfoContainer}>
                       <Text style={[styles.surahTitle, isDarkMode && styles.darkText]}>
-                        {surahInfo?.nameAlbanian || `Surah ${surahNumber}`}
+                        Surah {surahInfo?.nameAlbanian || `${surahNumber}`}
                       </Text>
-                      <Text style={styles.surahSubtitle}>
-                        {surahInfo?.revelationType} • {surahInfo?.numberOfAyahs} verses
-                      </Text>
+                      <View style={styles.surahMetaContainer}>
+                        <View style={styles.surahNumberBadge}>
+                          <Text style={styles.surahNumberText}>{surahNumber}</Text>
+                        </View>
+                        <Text style={[styles.surahSubtitle, isDarkMode && styles.darkSubtitleText]}>
+                          {surahInfo?.revelationType} • {surahInfo?.numberOfAyahs} verses
+                        </Text>
+                      </View>
                     </View>
                     <Text style={styles.surahArabicName}>{surahInfo?.nameArabic}</Text>
                   </View>
@@ -416,12 +430,21 @@ const QuranReader: React.FC<QuranReaderProps> = ({
             </View>
           )
         })}
+
+        {/* Page number at the bottom */}
+        <View style={styles.pageNumberFooter}>
+          <View style={[styles.pageNumberLine, isDarkMode && styles.darkPageNumberLine]} />
+          <View style={[styles.pageNumberContainer, isDarkMode && styles.darkPageNumberContainer]}>
+            <Text style={[styles.pageNumberText, isDarkMode && styles.darkPageNumberText]}>{pageNumber}</Text>
+          </View>
+          <View style={[styles.pageNumberLine, isDarkMode && styles.darkPageNumberLine]} />
+        </View>
       </View>
     )
   }
 
   // Render separator between pages
-  const renderSeparator = () => <View style={[styles.pageSeparator, isDarkMode && styles.darkPageSeparator]} />
+  const renderSeparator = () => <View style={[styles.pageSeparator]} />
 
   // Render the list header (for pull-to-load-more)
   const renderListHeader = () => (
@@ -483,13 +506,14 @@ const QuranReader: React.FC<QuranReaderProps> = ({
         toggleDarkMode={onToggleDarkMode}
         showBackButton={true}
         onBackPress={onBackPress}
+        onSettingsPress={toggleControls}
       />
 
-      <View style={[styles.pageInfo, isDarkMode && styles.darkPageInfo]}>
+      {/* <View style={[styles.pageInfo, isDarkMode && styles.darkPageInfo]}>
         <Text style={[styles.pageInfoText, isDarkMode && styles.darkText]}>
           {QuranService.getSurah(currentSurah)?.nameArabic}
         </Text>
-      </View>
+      </View> */}
 
       {isLoading ? (
         <View style={styles.loadingContainer}>
@@ -530,7 +554,7 @@ const QuranReader: React.FC<QuranReaderProps> = ({
         />
       )}
 
-      <View style={[styles.navigationContainer, isDarkMode && styles.darkNavigationContainer]}>
+      {/* <View style={[styles.navigationContainer, isDarkMode && styles.darkNavigationContainer]}>
         <TouchableOpacity
           style={styles.navButton}
           onPress={() => changePage("prev")}
@@ -541,10 +565,6 @@ const QuranReader: React.FC<QuranReaderProps> = ({
             size={24}
             color={currentPageIndex === 0 && pages[0]?.pageNumber === 1 ? "#ccc" : isDarkMode ? "#fff" : "#333"}
           />
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.controlsButton} onPress={toggleControls}>
-          <Ionicons name="settings-outline" size={24} color={isDarkMode ? "#fff" : "#333"} />
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -558,7 +578,7 @@ const QuranReader: React.FC<QuranReaderProps> = ({
             color={currentPageIndex === pages.length - 1 ? "#ccc" : isDarkMode ? "#fff" : "#333"}
           />
         </TouchableOpacity>
-      </View>
+      </View> */}
 
       {/* Settings panel */}
       <Animated.View
@@ -599,21 +619,6 @@ const QuranReader: React.FC<QuranReaderProps> = ({
 
         <View style={[styles.divider, isDarkMode && styles.darkDivider]} />
 
-        {/* <View style={styles.controlsRow}>
-          <TouchableOpacity
-            style={[styles.controlButton, isDarkMode && styles.darkControlButton]}
-            onPress={onToggleArabic}
-          >
-            <Ionicons name={showArabic ? "eye-off" : "eye"} size={20} color={isDarkMode ? "#fff" : "#333"} />
-          </TouchableOpacity>
-
-          <Text style={[styles.fontSizeText, isDarkMode && styles.darkText]}>
-            {showArabic ? "Hide Arabic" : "Show Arabic"}
-          </Text>
-        </View> */}
-
-        <View style={[styles.divider, isDarkMode && styles.darkDivider]} />
-
         <View style={styles.controlsRow}>
           <TouchableOpacity
             style={[styles.controlButton, isDarkMode && styles.darkControlButton]}
@@ -641,7 +646,7 @@ const styles = StyleSheet.create({
   },
   pageInfo: {
     alignItems: "center",
-    paddingVertical: 12,
+    paddingVertical: 8, // Reduced from 12
     borderBottomWidth: 1,
     borderBottomColor: "#e0e0e0",
     backgroundColor: "#fff",
@@ -651,7 +656,7 @@ const styles = StyleSheet.create({
     borderBottomColor: "#333",
   },
   pageInfoText: {
-    fontSize: 22,
+    fontSize: 20, // Reduced from 22
     color: "#2C6B2F",
     fontWeight: "500",
   },
@@ -672,20 +677,15 @@ const styles = StyleSheet.create({
     color: "#555",
   },
   contentContainer: {
-    paddingHorizontal: 16,
+    paddingHorizontal: 0, // Removed horizontal padding (was 16)
     paddingBottom: 20,
   },
   pageWrapper: {
     backgroundColor: "#fff",
-    borderRadius: 12,
-    marginVertical: 12,
-    padding: 20,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-    borderWidth: 1,
+    borderRadius: 0, // Removed border radius (was 12)
+    marginVertical: 0, // Removed vertical margin (was 12)
+    padding: 16, // Reduced padding (was 20)
+    borderWidth: 0, // Removed border (was 1)
     borderColor: "#e8e8e8",
   },
   darkPageWrapper: {
@@ -693,99 +693,21 @@ const styles = StyleSheet.create({
     borderColor: "#333",
   },
   currentPageWrapper: {
-    borderLeftWidth: 4,
-    borderLeftColor: "#2C6B2F",
-  },
-  pageDecorativeHeader: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: 15,
-  },
-  decorativeLine: {
-    flex: 1,
-    height: 1,
-    backgroundColor: "#2C6B2F",
-    opacity: 0.3,
-  },
-  darkDecorativeLine: {
-    backgroundColor: "#4CAF50",
-    opacity: 0.5,
-  },
-  decorativeCircle: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: "#e8f5e9",
-    justifyContent: "center",
-    alignItems: "center",
-    marginHorizontal: 15,
-    borderWidth: 1,
-    borderColor: "#2C6B2F",
-  },
-  darkDecorativeCircle: {
-    backgroundColor: "#1e3e1f",
-    borderColor: "#4CAF50",
-  },
-  pageNumberBadge: {
-    fontSize: 16,
-    fontWeight: "bold",
-    color: "#2C6B2F",
-  },
-  surahHeader: {
-    marginBottom: 20,
-    paddingBottom: 15,
-    borderBottomWidth: 1,
-    borderBottomColor: "#e0e0e0",
-  },
-  darkSurahHeader: {
-    borderBottomColor: "#333",
-  },
-  surahHeaderContent: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  surahNumber: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    backgroundColor: "#2C6B2F",
-    color: "#fff",
-    textAlign: "center",
-    textAlignVertical: "center",
-    fontSize: 16,
-    fontWeight: "bold",
-    lineHeight: 36,
-    marginRight: 12,
-    overflow: "hidden",
-  },
-  surahTitleContainer: {
-    flex: 1,
-  },
-  surahTitle: {
-    fontSize: 18,
-    fontWeight: "600",
-    color: "#333",
-    marginBottom: 2,
-  },
-  surahSubtitle: {
-    fontSize: 12,
-    color: "#666",
-  },
-  surahArabicName: {
-    fontSize: 20,
-    color: "#2C6B2F",
-    marginLeft: 8,
+    // Border removed as requested
   },
   pageSeparator: {
-    height: 16,
+    height: 0, // Removed separator height (was 16)
   },
   darkPageSeparator: {
     backgroundColor: "#121212",
   },
   bismillah: {
     alignItems: "center",
-    marginVertical: 25,
+    marginVertical: 16,
+    paddingVertical: 10,
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+    borderColor: "rgba(44, 107, 47, 0.1)",
   },
   bismillahText: {
     color: "#2C6B2F",
@@ -793,8 +715,8 @@ const styles = StyleSheet.create({
     fontWeight: "500",
   },
   verseContainer: {
-    marginBottom: 24,
-    paddingBottom: 16,
+    marginBottom: 12, // Reduced from 24
+    paddingBottom: 12, // Reduced from 16
     borderBottomWidth: 1,
     borderBottomColor: "#eee",
   },
@@ -802,7 +724,7 @@ const styles = StyleSheet.create({
     borderBottomColor: "#333",
   },
   arabicContainer: {
-    marginBottom: 12,
+    marginBottom: 10, // Reduced from 12
     position: "relative",
     paddingRight: 30,
   },
@@ -851,7 +773,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingVertical: 14,
+    paddingVertical: 12, // Reduced from 14
     paddingHorizontal: 20,
     borderTopWidth: 1,
     borderTopColor: "#e0e0e0",
@@ -862,9 +784,6 @@ const styles = StyleSheet.create({
     borderTopColor: "#333",
   },
   navButton: {
-    padding: 10,
-  },
-  controlsButton: {
     padding: 10,
   },
   controlsPanel: {
@@ -923,7 +842,7 @@ const styles = StyleSheet.create({
   endOfSurahContainer: {
     flexDirection: "row",
     alignItems: "center",
-    marginVertical: 25,
+    marginVertical: 20, // Reduced from 25
   },
   darkEndOfSurahContainer: {
     opacity: 0.8,
@@ -965,6 +884,139 @@ const styles = StyleSheet.create({
     marginLeft: 8,
     fontSize: 14,
     color: "#333",
+  },
+  pageNumberContainer: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: "#e8f5e9",
+    justifyContent: "center",
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: "#2C6B2F",
+  },
+  darkPageNumberContainer: {
+    backgroundColor: "#1e3e1f",
+    borderColor: "#4CAF50",
+  },
+  pageNumberText: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#2C6B2F",
+  },
+  darkPageNumberText: {
+    color: "#4CAF50",
+  },
+  // Enhanced styles for surah header
+  surahHeaderWrapper: {
+    // marginBottom: 5,
+    marginTop: 5,
+    paddingHorizontal: 5,
+  },
+  surahDecorativeLine: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    marginVertical: 4,
+  },
+  surahDecorativeOrnament: {
+    width: 100,
+    height: 1,
+    backgroundColor: "rgba(44, 107, 47, 0.5)",
+    borderRadius: 1,
+  },
+  darkSurahDecorativeOrnament: {
+    backgroundColor: "rgba(76, 175, 80, 0.5)",
+  },
+  surahHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 6,
+  },
+  darkSurahHeader: {
+    borderBottomColor: "#333",
+  },
+  surahInfoContainer: {
+    flex: 1,
+    marginLeft: 12,
+  },
+  surahMetaContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 2,
+  },
+  surahNumberBadge: {
+    width: 22,
+    height: 22,
+    borderRadius: 11,
+    backgroundColor: "#2C6B2F",
+    justifyContent: "center",
+    alignItems: "center",
+    marginRight: 6,
+  },
+  surahNumberText: {
+    color: "#fff",
+    fontSize: 11,
+    fontWeight: "bold",
+  },
+  surahTitle: {
+    fontSize: 16,
+    fontWeight: "600",
+    color: "#333",
+  },
+  surahSubtitle: {
+    fontSize: 11,
+    color: "#666",
+  },
+  surahArabicName: {
+    fontSize: 22,
+    color: "#2C6B2F",
+    fontWeight: "500",
+    textAlign: "right",
+    width: 80,
+  },
+
+  // Enhanced styles for page number
+  pageNumberFooter: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 0,
+    marginBottom: 0,
+    paddingBottom: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: "#eee",
+    // height: 24,
+  },
+  pageNumberLine: {
+    flex: 1,
+    height: 1,
+    backgroundColor: "#e0e0e0",
+    marginHorizontal: 10,
+  },
+  darkPageNumberLine: {
+    backgroundColor: "#333",
+  },
+  pageNumberContainer: {
+    paddingHorizontal: 12,
+    paddingVertical: 3,
+    backgroundColor: "#f5f5f5",
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: "#e0e0e0",
+  },
+  darkPageNumberContainer: {
+    backgroundColor: "#2a2a2a",
+    borderColor: "#444",
+  },
+  pageNumberText: {
+    fontSize: 14,
+    fontWeight: "500",
+    color: "#666",
+  },
+  darkPageNumberText: {
+    color: "#bbb",
   },
 })
 

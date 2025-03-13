@@ -305,10 +305,11 @@ export class QuranService {
     }
 
     // Get the surah info
-    const surah = this.getSurah(surahNumber)
-    if (surah) {
-      juzNumber = surah.juz
-    }
+    // const surah = this.getSurah(surahNumber)
+    // if (surah) {
+    //   juzNumber = surah.juz
+    // }
+    juzNumber = quranDatabase[pageNumber]?.verses[quranDatabase[pageNumber]?.verses.length - 1].juz || 1
 
     return { surah: surahNumber, verse: verseNumber, juz: juzNumber }
   }
