@@ -20,73 +20,139 @@ const ramadanStartDate = "2025-03-01"
 const ramadanEndDate = "2025-03-29"
 
 // List of default tasks to perform during Ramadan with checklist items
+// const defaultTasks: Task[] = [
+//   {
+//     id: 1,
+//     title: "Fajr Salah",
+//     description: "Perform Fajr Salah and make Dua",
+//     hasChecklist: true,
+//     checklistItems: [
+//       { id: "1-1", text: "Perform 2 Sunnah rakats", isCompleted: false },
+//       { id: "1-2", text: "Perform 2 Fard rakats", isCompleted: false },
+//       { id: "1-3", text: "Make morning Dua", isCompleted: false },
+//     ],
+//     isCompleted: false,
+//   },
+//   {
+//     id: 2,
+//     title: "Zikr",
+//     description: "Daily Zikr and Tasbih",
+//     hasChecklist: true,
+//     checklistItems: [
+//       { id: "2-1", text: "Subhanallah (100 times)", isCompleted: false },
+//       { id: "2-2", text: "Alhamdulillah (100 times)", isCompleted: false },
+//       { id: "2-3", text: "Allahu Akbar (100 times)", isCompleted: false },
+//       { id: "2-4", text: "La ilaha illallah (100 times)", isCompleted: false },
+//     ],
+//     isCompleted: false,
+//   },
+//   {
+//     id: 3,
+//     title: "Quran Reading",
+//     description: "Read 1 Juz of the Quran",
+//     hasChecklist: false,
+//     isCompleted: false,
+//   },
+//   {
+//     id: 4,
+//     title: "Dua for Family",
+//     description: "Make Dua for your family's well-being",
+//     hasChecklist: false,
+//     isCompleted: false,
+//   },
+//   {
+//     id: 5,
+//     title: "Iftar Preparation",
+//     description: "Help prepare the Iftar meal",
+//     hasChecklist: true,
+//     checklistItems: [
+//       { id: "5-1", text: "Prepare dates and water", isCompleted: false },
+//       { id: "5-2", text: "Help with cooking", isCompleted: false },
+//       { id: "5-3", text: "Set the table", isCompleted: false },
+//     ],
+//     isCompleted: false,
+//   },
+//   {
+//     id: 6,
+//     title: "Maghrib Salah",
+//     description: "Perform Maghrib Salah and make Dua",
+//     hasChecklist: false,
+//     isCompleted: false,
+//   },
+//   {
+//     id: 7,
+//     title: "Taraweeh",
+//     description: "Pray Taraweeh after Iftar",
+//     hasChecklist: false,
+//     isCompleted: false,
+//   },
+// ]
+
 const defaultTasks: Task[] = [
   {
     id: 1,
-    title: "Fajr Salah",
-    description: "Perform Fajr Salah and make Dua",
+    title: "Namazet Ditore",
+    description: "Kryej të gjitha namazet ditore",
     hasChecklist: true,
     checklistItems: [
-      { id: "1-1", text: "Perform 2 Sunnah rakats", isCompleted: false },
-      { id: "1-2", text: "Perform 2 Fard rakats", isCompleted: false },
-      { id: "1-3", text: "Make morning Dua", isCompleted: false },
+      { id: "1-1", text: "Namazi i Sabahut", isCompleted: false },
+      { id: "1-2", text: "Namazi i Drekës", isCompleted: false },
+      { id: "1-3", text: "Namazi i Ikindisë", isCompleted: false },
+      { id: "1-4", text: "Namazi i Akshamit", isCompleted: false },
+      { id: "1-5", text: "Namazi i Jacisë", isCompleted: false },
     ],
     isCompleted: false,
   },
   {
     id: 2,
-    title: "Zikr",
-    description: "Daily Zikr and Tasbih",
+    title: "Dhikri Ditor",
+    description: "Përmende Allahun me dhikër dhe tesbih gjatë ditës",
     hasChecklist: true,
     checklistItems: [
-      { id: "2-1", text: "Subhanallah (100 times)", isCompleted: false },
-      { id: "2-2", text: "Alhamdulillah (100 times)", isCompleted: false },
-      { id: "2-3", text: "Allahu Akbar (100 times)", isCompleted: false },
-      { id: "2-4", text: "La ilaha illallah (100 times)", isCompleted: false },
+      { id: "2-1", text: "SubhanAllah (100 herë)", isCompleted: false },
+      { id: "2-2", text: "Alhamdulillah (100 herë)", isCompleted: false },
+      { id: "2-3", text: "Allahu Ekber (100 herë)", isCompleted: false },
+      { id: "2-4", text: "La ilaha illallah (100 herë)", isCompleted: false },
+      { id: "2-5", text: "Astaghfirullah (100 herë)", isCompleted: false },
+      { id: "2-6", text: "Allahumme sali ala Muhammed (100 herë)", isCompleted: false },
+      { id: "2-7", text: "La havle ve la kuvete illa billah (100 herë)", isCompleted: false },
     ],
     isCompleted: false,
   },
   {
     id: 3,
-    title: "Quran Reading",
-    description: "Read 1 Juz of the Quran",
+    title: "Leximi i Kuranit",
+    description: "Lexo një xhuz nga Kurani",
     hasChecklist: false,
     isCompleted: false,
   },
   {
     id: 4,
-    title: "Dua for Family",
-    description: "Make Dua for your family's well-being",
+    title: "Dua për Familjen",
+    description: "Lutu për familjen, të afërmit, shoqërinë dhe të gjithë myslimanët anembanë botës",
     hasChecklist: false,
     isCompleted: false,
   },
   {
     id: 5,
-    title: "Iftar Preparation",
-    description: "Help prepare the Iftar meal",
+    title: "Përgatitja e Iftarit",
+    description: "Ndihmo në përgatitjen e iftarit",
     hasChecklist: true,
     checklistItems: [
-      { id: "5-1", text: "Prepare dates and water", isCompleted: false },
-      { id: "5-2", text: "Help with cooking", isCompleted: false },
-      { id: "5-3", text: "Set the table", isCompleted: false },
+      { id: "5-1", text: "Ndihmo në gatim", isCompleted: false },
+      { id: "5-2", text: "Ndihmo në shtrimin e tryezës", isCompleted: false },
     ],
     isCompleted: false,
   },
   {
-    id: 6,
-    title: "Maghrib Salah",
-    description: "Perform Maghrib Salah and make Dua",
-    hasChecklist: false,
-    isCompleted: false,
-  },
-  {
     id: 7,
-    title: "Taraweeh",
-    description: "Pray Taraweeh after Iftar",
+    title: "Namazi i Teravisë",
+    description: "Fale namazin e Teravisë",
     hasChecklist: false,
     isCompleted: false,
   },
-]
+];
+
 
 export default function RamadanToDoScreen() {
   const [tasks, setTasks] = useState<Task[]>([])

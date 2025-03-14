@@ -73,6 +73,10 @@ const QuranReader: React.FC<QuranReaderProps> = ({
     loadInitialPages()
   }, [])
 
+  useEffect(() => {
+    onUpdatePosition(currentSurah, currentVerse, currentPage, currentJuz)
+  }, [currentJuz, currentSurah, currentVerse, currentPage])
+
   // Handle page change
   const onViewableItemsChanged = useRef(({ viewableItems }) => {
     if (viewableItems.length > 0 && !isLoadingMore.current) {
@@ -105,7 +109,7 @@ const QuranReader: React.FC<QuranReaderProps> = ({
           setCurrentJuz(newJuz)
 
           // Update reading position in parent component
-          onUpdatePosition(newSurah, newVerse, visiblePage.pageNumber, newJuz)
+          // onUpdatePosition(newSurah, newVerse, visiblePage.pageNumber, newJuz)
         }
       }
     }
@@ -154,7 +158,7 @@ const QuranReader: React.FC<QuranReaderProps> = ({
       setCurrentSurah(newSurah)
       setCurrentVerse(newVerse)
       setCurrentJuz(newJuz)
-      onUpdatePosition(newSurah, newVerse, startPage, newJuz)
+      // onUpdatePosition(newSurah, newVerse, startPage, newJuz)
 
       // Scroll to the starting page after a short delay to ensure rendering
       setTimeout(() => {
@@ -202,7 +206,7 @@ const QuranReader: React.FC<QuranReaderProps> = ({
         )
 
         // Add new pages to the beginning
-        setPages([...newPages, ...currentPages])
+        setPages([...newPages, currentPages[0]])
         const { surah: newSurah, verse: newVerse, juz: newJuz } = QuranService.getSurahAndVerseForPage(firstPage - 1)
 
         setCurrentSurah(newSurah)

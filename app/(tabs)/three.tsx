@@ -133,7 +133,7 @@ export default function QuranScreen() {
     const updatedRecentlyRead = [
       newRecentRead,
       ...recentlyRead.filter((item) => item.surah !== surah || item.page !== page),
-    ].slice(0, 3)
+    ].slice(0, 1)
 
     setRecentlyRead(updatedRecentlyRead)
     saveReadingPosition()
