@@ -1,7 +1,7 @@
 import React from 'react';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Link, Tabs } from 'expo-router';
-import { Pressable } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 
 import Colors from '@/constants/Colors';
 import { useColorScheme } from '@/components/useColorScheme';
@@ -12,7 +12,28 @@ function TabBarIcon(props: {
   name: React.ComponentProps<typeof FontAwesome>['name'];
   color: string;
 }) {
-  return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
+  return <FontAwesome size={28} style={{ marginBottom: -3, marginTop: 5 }} {...props} />;
+}
+
+// Custom component for the "33" icon
+function ThirtyThreeIcon({ color }: { color: string }) {
+  return (
+    <View 
+      style={{ 
+        width: 30, 
+        height: 30, 
+        borderRadius: 15, 
+        borderWidth: 2, 
+        borderColor: color, 
+        alignItems: 'center', 
+        justifyContent: 'center', 
+        marginBottom: -5,
+        marginTop: 5
+      }}
+    >
+      <Text style={{ fontSize: 14, marginBottom: -2, fontWeight: 'bold', color }}>33</Text>
+    </View>
+  );
 }
 
 export default function TabLayout() {
@@ -29,8 +50,8 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Ramadan To-Do',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: '',
+          tabBarIcon: ({ color }) => <TabBarIcon name="calendar-check-o" color={color} />,
           headerRight: () => (
             <Link href="/modal" asChild>
               <Pressable>
@@ -39,7 +60,7 @@ export default function TabLayout() {
                     name="info-circle"
                     size={25}
                     color={Colors[colorScheme ?? 'light'].text}
-                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
+                    style={{ marginRight: 15, marginTop: 5, opacity: pressed ? 0.5 : 1 }}
                   />
                 )}
               </Pressable>
@@ -50,24 +71,17 @@ export default function TabLayout() {
       <Tabs.Screen
         name="two"
         options={{
-          title: 'Tasbeeh',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: '',
+          tabBarIcon: ({ color }) => <ThirtyThreeIcon color={color} />,
         }}
       />
       <Tabs.Screen
         name="three"
         options={{
-          title: 'Quran',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: '',
+          tabBarIcon: ({ color }) => <TabBarIcon name="book" color={color} />,
         }}
       />
-      {/* <Tabs.Screen
-        name="four"
-        options={{
-          title: 'Tab Four',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-        }}
-      /> */}
     </Tabs>
   );
 }
